@@ -22,22 +22,16 @@ The system is divided into several key components:
 
 ```mermaid
 graph LR
-    A[Community Platforms<br/>(Discord, Slack, GitHub)] -->|Webhooks/API Calls| B(API Gateway<br/>(FastAPI))
-    B --> C(Event Processing & Routing)
-    C --> D(LLM & AI Services)
-    C --> E(Database<br/>(Supabase))
-    D --> F(Response Generation)
+    A["Community Platforms: Discord, Slack, GitHub"] -->|Webhooks/API Calls| B["API Gateway: FastAPI"]
+    B --> C["Event Processing & Routing"]
+    C --> D["LLM & AI Services"]
+    C --> E["Database: Supabase"]
+    D --> F["Response Generation"]
     F --> B
     B -->|Automated Responses| A
-```
 
-*Explanation:*  
-- **A → B:** Platforms send events (e.g., messages, new issues) to our API Gateway.
-- **B → C:** The API Gateway processes the events and routes them to the relevant module.
-- **C → D:** For any AI-driven tasks (FAQ, onboarding, issue triage), the request is forwarded to the LLM service.
-- **C → E:** Simultaneously, the event is logged or used to update engagement metrics in the Supabase database.
-- **D → F:** The AI module generates the appropriate response.
-- **F → B → A:** Finally, the response is sent back to the originating platform.
+
+```
 
 ---
 
