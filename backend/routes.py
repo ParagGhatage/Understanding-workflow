@@ -20,8 +20,7 @@ async def github_webhook(request: Request):
         comments_url = issue_data["comments_url"]
         user = issue_data["user"]["login"]
 
-        
-
+    
     return {"status": "ok"}
 
 
