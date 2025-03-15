@@ -1,4 +1,5 @@
 
+
 # Devr.AI Backend Planning
 
 Devr.AI is an AI-powered Developer Relations assistant that helps maintainers and contributors interact seamlessly across platforms like Discord, Slack, and GitHub. The goal is to automate engagement, triage issues, assist with PRs, manage FAQs, and generate community analytics—all while reducing the repetitive workload of maintainers.
