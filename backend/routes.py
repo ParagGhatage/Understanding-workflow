@@ -4,8 +4,7 @@ import os
 
 router = APIRouter()
 
-GITHUB_TOKEN_NAME = os.getenv("GITHUB_TOKE_NAME")  # Make sure this is set with the right scopes
-HEADERS = {"Authorization": f"token {GITHUB_TOKEN_NAME}"}
+
 
 @router.post("/github/webhook")
 async def github_webhook(request: Request):
