@@ -1,81 +1,58 @@
 ```mermaid
-
 flowchart TD
-  %% Frontend
   A["User (Next.js Frontend)"]
-  
-  %% Backend and Ingestion
   B["FastAPI Backend (Python)"]
   C["Content Ingestion & Preprocessing (Python NLP)"]
-  D["Extract Narrative & Key Facts"]
-
-  %% Parallel LLM Processing Branch
-  E["Parallel LLM Workflows"]
+  D["Extract Narrative, Facts & Sentiment"]
   
-  %% LangChain Workflow Branch (Sequential)
-  F["LangChain Workflow"]
-  G["Prompt Engineering (LangChain Prompt Templates)"]
-  H["LLM Chain Execution (OpenAI GPT Model)"]
-  I["Output Parsing & Structuring (Output Parsers, JSON)"]
-  J["LangChain Output (Counter-Perspective)"]
+  E["LangGraph Workflow (Structured Process Manager)"]
+  F["Define Central State (StateGraph in Python)"]
+  G["Narrative Analysis Node (Extract Narrative & Sentiment)"]
+  H["Fact Verification & Update Node (External News APIs)"]
   
-  %% LangGraph Workflow Branch (Cyclic/Agent Orchestration)
-  K["LangGraph Workflow"]
-  L["Define Central State (StateGraph in Python)"]
-  M["Narrative Analysis Node"]
-  N["Fact Verification & Update (External News APIs)"]
-  O["Counterargument Generation Node (LLM / Custom Function)"]
-  P["Evaluation & Feedback Node (LLM Evaluation)"]
-  Q["Conditional Loop Back ('if re-run needed')"]
-  R["LangGraph Final Output (Refined Counter-Perspective)"]
+  subgraph LF[LangChain Workflow: Counterargument Generation]
+    I1["Prompt Engineering (LangChain Prompt Templates)"]
+    I2["Chain-of-Thought Reasoning (OpenAI GPT Model)"]
+    I3["Output Parsing & Structuring (Output Parsers, JSON)"]
+  end
   
-  %% Aggregation and Delivery
-  S["Output Aggregation & Delivery (Combine Outputs)"]
-  T["VectorDB Storage (e.g., Pinecone)"]
-  U["Return Response to Frontend (via FastAPI)"]
-  V["Display Balanced Content (Next.js UI)"]
+  J["Evaluation & Feedback Node (LLM Evaluation)"]
+  K["Conditional Loop Back ('if re-run needed')"]
+  L["LangGraph Final Output (Refined Counter-Perspective)"]
   
-  %% Feedback Loop
-  W["User Feedback"]
-  X["Update Database & Trigger Re-run"]
+  M["Output Aggregation & Delivery (Combine Outputs)"]
+  N["VectorDB Storage (e.g., Pinecone)"]
+  O["Return Response to Frontend (via FastAPI)"]
+  P["Display Balanced Content (Next.js UI)"]
   
-  %% Data Flow
+  Q["User Feedback"]
+  R["Update Database & Trigger Re-run"]
+  
   A -->|Interacts| B
   B --> C
   C --> D
   D --> E
   
-  %% Parallel branch splitting from E
   E --> F
-  E --> K
-  
-  %% LangChain branch
   F --> G
   G --> H
-  H --> I
-  I --> J
+  H --> I1
+  I1 --> I2
+  I2 --> I3
+  I3 --> J
+  J -- "If not sufficient" --> K
+  K --> H
+  J -- "If complete" --> L
   
-  %% LangGraph branch
-  K --> L
   L --> M
   M --> N
   N --> O
   O --> P
-  P -- "If not sufficient" --> Q
-  Q --> N
-  P -- "If complete" --> R
   
-  %% Aggregation
-  J --> S
-  R --> S
-  S --> T
-  T --> U
-  U --> V
-  
-  %% Feedback loop
-  V --> W
-  W --> X
-  X --> T
+  P --> Q
+  Q --> R
+  R --> N
+
 
 ```
 
