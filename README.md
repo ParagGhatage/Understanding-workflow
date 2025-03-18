@@ -1,4 +1,83 @@
+```mermaid
 
+flowchart TD
+  %% Frontend
+  A["User (Next.js Frontend)"]
+  
+  %% Backend and Ingestion
+  B["FastAPI Backend (Python)"]
+  C["Content Ingestion & Preprocessing (Python NLP)"]
+  D["Extract Narrative & Key Facts"]
+
+  %% Parallel LLM Processing Branch
+  E["Parallel LLM Workflows"]
+  
+  %% LangChain Workflow Branch (Sequential)
+  F["LangChain Workflow"]
+  G["Prompt Engineering (LangChain Prompt Templates)"]
+  H["LLM Chain Execution (OpenAI GPT Model)"]
+  I["Output Parsing & Structuring (Output Parsers, JSON)"]
+  J["LangChain Output (Counter-Perspective)"]
+  
+  %% LangGraph Workflow Branch (Cyclic/Agent Orchestration)
+  K["LangGraph Workflow"]
+  L["Define Central State (StateGraph in Python)"]
+  M["Narrative Analysis Node"]
+  N["Fact Verification & Update (External News APIs)"]
+  O["Counterargument Generation Node (LLM / Custom Function)"]
+  P["Evaluation & Feedback Node (LLM Evaluation)"]
+  Q["Conditional Loop Back ('if re-run needed')"]
+  R["LangGraph Final Output (Refined Counter-Perspective)"]
+  
+  %% Aggregation and Delivery
+  S["Output Aggregation & Delivery (Combine Outputs)"]
+  T["VectorDB Storage (e.g., Pinecone)"]
+  U["Return Response to Frontend (via FastAPI)"]
+  V["Display Balanced Content (Next.js UI)"]
+  
+  %% Feedback Loop
+  W["User Feedback"]
+  X["Update Database & Trigger Re-run"]
+  
+  %% Data Flow
+  A -->|Interacts| B
+  B --> C
+  C --> D
+  D --> E
+  
+  %% Parallel branch splitting from E
+  E --> F
+  E --> K
+  
+  %% LangChain branch
+  F --> G
+  G --> H
+  H --> I
+  I --> J
+  
+  %% LangGraph branch
+  K --> L
+  L --> M
+  M --> N
+  N --> O
+  O --> P
+  P -- "If not sufficient" --> Q
+  Q --> N
+  P -- "If complete" --> R
+  
+  %% Aggregation
+  J --> S
+  R --> S
+  S --> T
+  T --> U
+  U --> V
+  
+  %% Feedback loop
+  V --> W
+  W --> X
+  X --> T
+
+```
 
 # Devr.AI Backend Planning
 
