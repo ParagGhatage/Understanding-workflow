@@ -1,58 +1,58 @@
 ```mermaid
 flowchart TD
-  A["User (Next.js Frontend)"]
-  B["FastAPI Backend (Python)"]
-  C["Content Ingestion & Preprocessing (Python NLP)"]
-  D["Extract Narrative, Facts & Sentiment"]
-  
-  E["LangGraph Workflow (Structured Process Manager)"]
-  F["Define Central State (StateGraph in Python)"]
-  G["Narrative Analysis Node (Extract Narrative & Sentiment)"]
-  H["Fact Verification & Update Node (External News APIs)"]
-  
-  subgraph LF[LangChain Workflow: Counterargument Generation]
-    I1["Prompt Engineering (LangChain Prompt Templates)"]
-    I2["Chain-of-Thought Reasoning (OpenAI GPT Model)"]
-    I3["Output Parsing & Structuring (Output Parsers, JSON)"]
-  end
-  
-  J["Evaluation & Feedback Node (LLM Evaluation)"]
-  K["Conditional Loop Back ('if re-run needed')"]
-  L["LangGraph Final Output (Refined Counter-Perspective)"]
-  
-  M["Output Aggregation & Delivery (Combine Outputs)"]
-  N["VectorDB Storage (e.g., Pinecone)"]
-  O["Return Response to Frontend (via FastAPI)"]
-  P["Display Balanced Content (Next.js UI)"]
-  
-  Q["User Feedback"]
-  R["Update Database & Trigger Re-run"]
-  
-  A -->|Interacts| B
-  B --> C
-  C --> D
-  D --> E
-  
-  E --> F
-  F --> G
-  G --> H
-  H --> I1
-  I1 --> I2
-  I2 --> I3
-  I3 --> J
-  J -- "If not sufficient" --> K
-  K --> H
-  J -- "If complete" --> L
-  
-  L --> M
-  M --> N
-  N --> O
-  O --> P
-  
-  P --> Q
-  Q --> R
-  R --> N
+    %% Top: External Integrations
+    subgraph Integrations [External Integrations]
+        D[Discord]
+        S[Slack]
+        G[GitHub]
+        O[Discourse]
+    end
 
+    %% Middle: Platform Components
+    subgraph Platform [Devr.AI Platform]
+        API[FastAPI Backend]
+        DB[(Supabase Database)]
+        LLM[GenAI Engine]
+        KR[Knowledge Retrieval Module]
+        WA[Workflow Automation Engine]
+    end
+
+    %% Bottom: Functional Modules
+    subgraph Modules [Functional Modules]
+        CE[AI-Driven Contributor Engagement]
+        IT[Automated Issue Triage & PR Assistance]
+        KB[Knowledge Base & FAQ Automation]
+        CA[AI-Powered Community Analytics]
+    end
+
+    %% Data & Process Flow
+    D --> API
+    S --> API
+    G --> API
+    O --> API
+
+    API --> LLM
+    API --> KR
+    API --> WA
+    API --> DB
+
+    LLM --> CE
+    LLM --> IT
+    LLM --> KB
+    LLM --> CA
+
+    KR --> KB
+
+    WA --> IT
+    WA --> CE
+    WA --> CA
+
+    API --> CE
+    API --> IT
+    API --> KB
+    API --> CA
+
+    CA --> DB
 
 ```
 
